@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transit Safety Intelligence for Toronto</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <div class="brand-block">
+        <p class="eyebrow">Toronto Police Service Proposal</p>
+        <h1>Transit Safety Intelligence for Toronto</h1>
+      </div>
+      <nav class="topnav">
+        <a href="#overview">Overview</a>
+        <a href="#data">Data</a>
+        <a href="#process">Process</a>
+        <a href="#solution">Solution</a>
+        <a href="#dashboards">Dashboards</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="overview">
+        <div class="hero-copy">
+          <p class="hero-kicker">Public safety analytics + transit operations</p>
+          <h2>A decision-support system for Toronto Police Service that identifies which TTC stop areas need the most attention, when risk peaks, and where event-day pressure changes the picture.</h2>
+          <p class="hero-text">
+            This project combines TPS Major Crime Indicators, TTC GTFS transit data, and Toronto events data to convert
+            raw records into an operational view of transit-adjacent safety risk. Instead of only describing crime after the fact,
+            the website now frames the analysis as a proposed TPS solution for smarter patrol planning, event readiness, and resource allocation.
+          </p>
+          <div class="hero-pills">
+            <span>Python</span>
+            <span>Streamlit</span>
+            <span>Folium</span>
+            <span>Pandas</span>
+            <span>Power BI Design</span>
+            <span>Operational Analytics</span>
+          </div>
+        </div>
+        <aside class="hero-panel">
+          <div class="hero-stat">
+            <strong>What This Project Is</strong>
+            <p>A web presentation of a transit-safety analytics project built for a TPS audience, using actual linked crime and TTC stop data.</p>
+          </div>
+          <div class="hero-stat">
+            <strong>Core Question</strong>
+            <p>Which TTC stops and time windows show the highest crime exposure inside a 250-meter radius, and how should TPS respond?</p>
+          </div>
+          <div class="hero-stat accent">
+            <strong>Proposed Outcome</strong>
+            <p>A repeatable workflow for hotspot prioritization, event-day deployment, and briefing-friendly dashboards for commanders and analysts.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section-grid metric-strip">
+        <article class="metric-card">
+          <strong>37,678</strong>
+          <p>crime records linked to nearby TTC stops in the working dataset</p>
+        </article>
+        <article class="metric-card">
+          <strong>602</strong>
+          <p>transit stops with measurable stop-level crime exposure</p>
+        </article>
+        <article class="metric-card">
+          <strong>4</strong>
+          <p>high-risk stops surfaced by the baseline risk score</p>
+        </article>
+        <article class="metric-card">
+          <strong>Divisions 14, 51, 52</strong>
+          <p>core downtown focus area covered by the analysis and exported dashboards</p>
+        </article>
+      </section>
+
+      <section class="section-grid" id="data">
+        <div class="section-heading">
+          <p class="eyebrow">Project Inputs</p>
+          <h3>Data used in this project</h3>
+        </div>
+        <div class="card-grid three-up">
+          <article class="info-card">
+            <h4>TPS Major Crime Indicators</h4>
+            <p>Main incident dataset with crime date, division, category, and location coordinates.</p>
+            <ul>
+              <li>`data/Major_Crime_Indicators.csv`</li>
+              <li>Used for time trends, division counts, crime categories, and spatial joins</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h4>TTC GTFS Stops + Stop Times</h4>
+            <p>Transit reference data used to find the nearest TTC stop to each crime record.</p>
+            <ul>
+              <li>`data/Complete GTFS/stops.txt`</li>
+              <li>`data/processed/stop_times_with_stops.csv.gz`</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <h4>Toronto Events Feed</h4>
+            <p>Special-event dates and locations used to classify event days versus normal days.</p>
+            <ul>
+              <li>`data/Festivals and events json feed.json`</li>
+              <li>Supports event-day comparison and event hotspot views</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-grid" id="process">
+        <div class="section-heading">
+          <p class="eyebrow">Method</p>
+          <h3>How the analysis works</h3>
+        </div>
+        <div class="timeline">
+          <article class="timeline-step">
+            <span>01</span>
+            <div>
+              <h4>Load and standardize source data</h4>
+              <p>Crime records, TTC stops, stop times, and event feeds are normalized into consistent columns and date formats.</p>
+            </div>
+          </article>
+          <article class="timeline-step">
+            <span>02</span>
+            <div>
+              <h4>Attach each crime to the nearest TTC stop</h4>
+              <p>Crimes are matched to the closest stop within a configurable 250-meter radius using haversine distance logic.</p>
+            </div>
+          </article>
+          <article class="timeline-step">
+            <span>03</span>
+            <div>
+              <h4>Score stop-level risk</h4>
+              <p>A baseline risk score combines intensity and severity components with a 50/50 weighting.</p>
+            </div>
+          </article>
+          <article class="timeline-step">
+            <span>04</span>
+            <div>
+              <h4>Compare event days against normal days</h4>
+              <p>Daily crime averages are calculated by stop to show which areas are more sensitive to event activity.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-grid" id="solution">
+        <div class="section-heading wide">
+          <p class="eyebrow">Proposed Solution</p>
+          <h3>How this should be used by Toronto Police Service</h3>
+          <p>
+            The strongest part of the project is not the map itself. It is the operating model behind it: a simple way for TPS
+            to prioritize stop areas, time windows, and event-sensitive locations using one joined analytical workflow.
+          </p>
+        </div>
+
+        <div class="solution-layout">
+          <article class="solution-hero-card">
+            <p class="showcase-label">Recommended Use Case</p>
+            <h4>Deploy analytics where transit risk is concentrated, not evenly everywhere.</h4>
+            <p>
+              Current dashboards already show that crime exposure is concentrated around a small number of downtown stops,
+              with especially heavy clustering near Yonge, Dundas, Union, Jarvis, Sherbourne, and Church-area nodes.
+              That makes this a strong candidate for targeted deployment instead of blanket patrol coverage.
+            </p>
+          </article>
+
+          <div class="card-grid three-up solution-cards">
+            <article class="info-card emphasis-card">
+              <h4>1. Hotspot deployment</h4>
+              <p>Use the stop danger dashboard to create a priority watchlist of the highest-risk TTC stops for directed patrols and visible presence.</p>
+              <ul>
+                <li>Focus attention on the highest-risk and elevated-risk stop clusters</li>
+                <li>Refresh the list on a fixed cadence using the same scoring logic</li>
+                <li>Support supervisor briefings with stop-level rankings instead of raw incident tables</li>
+              </ul>
+            </article>
+            <article class="info-card emphasis-card">
+              <h4>2. Time-based staffing</h4>
+              <p>Use hourly and weekday patterns to shift resources toward the periods that consistently show more transit-adjacent crime activity.</p>
+              <ul>
+                <li>Late-day and evening windows are repeatedly heavier than early-morning periods</li>
+                <li>Peak-hour views help decide when to emphasize patrol or outreach teams</li>
+                <li>Supports scheduling decisions for focused overtime or surge coverage</li>
+              </ul>
+            </article>
+            <article class="info-card emphasis-card">
+              <h4>3. Event-day readiness</h4>
+              <p>Use the event-vs-normal comparison to identify stops where special events create above-baseline exposure and require pre-positioning.</p>
+              <ul>
+                <li>Flags stop areas where event-day averages materially exceed normal-day averages</li>
+                <li>Helps TPS coordinate earlier with transit and event stakeholders</li>
+                <li>Supports a more selective, evidence-based event deployment plan</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+
+        <div class="ops-grid">
+          <article class="ops-card">
+            <p class="showcase-label">Operational Insight</p>
+            <h4>What the data is already saying</h4>
+            <ul>
+              <li>Only four stops are classified as high-risk, which is useful for immediate prioritization.</li>
+              <li>Division 51 currently carries the largest share of linked incidents in this working set.</li>
+              <li>Several stop areas show event-day uplift, meaning event planning should not be citywide by default.</li>
+            </ul>
+          </article>
+          <article class="ops-card">
+            <p class="showcase-label">Recommended Next Step</p>
+            <h4>Turn the dashboard into a recurring briefing product</h4>
+            <ul>
+              <li>Weekly hotspot report for transit-adjacent stop clusters</li>
+              <li>Event-day exception list for stops with positive crime delta</li>
+              <li>Command-level summary page for patrol allocation and monitoring</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-grid" id="dashboards">
+        <div class="section-heading wide">
+          <p class="eyebrow">Power BI Dashboard Gallery</p>
+          <h3>Three Power BI dashboard views that support the proposed TPS workflow</h3>
+          <p>The screenshots below show the Power BI reporting layer behind the proposal: a city-level overview, a stop-risk prioritization view, and an event-day comparison view.</p>
+        </div>
+
+        <article class="showcase-block">
+          <div class="showcase-copy">
+            <p class="showcase-label">Power BI Dashboard 01</p>
+            <h4>Crime Overview</h4>
+            <p>This view summarizes total crime volume, most dangerous division, long-term trends, crime categories, and citywide distribution.</p>
+            <ul>
+              <li>High-level KPI cards for non-technical audiences</li>
+              <li>Division ranking and 5-year trend analysis</li>
+              <li>Map-based spatial distribution of incidents</li>
+            </ul>
+          </div>
+          <figure class="showcase-shot">
+            <img src="assets/dashboard-crime-overview.png" alt="Crime overview dashboard screenshot" />
+          </figure>
+        </article>
+
+        <article class="showcase-block reverse">
+          <div class="showcase-copy">
+            <p class="showcase-label">Power BI Dashboard 02</p>
+            <h4>Stop Dangerous Analysis</h4>
+            <p>This view focuses on TTC stops, highlighting the riskiest stop, peak crime hour, peak weekday, and risk-level distribution across the network.</p>
+            <ul>
+              <li>Risk-level map centered on transit stops</li>
+              <li>Hour-of-day and weekday breakdowns</li>
+              <li>Stop-level ranking for decision support</li>
+            </ul>
+          </div>
+          <figure class="showcase-shot">
+            <img src="assets/dashboard-stop-danger.png" alt="Stop dangerous dashboard screenshot" />
+          </figure>
+        </article>
+
+        <article class="showcase-block">
+          <div class="showcase-copy">
+            <p class="showcase-label">Power BI Dashboard 03</p>
+            <h4>Event vs. Normal Day Comparison</h4>
+            <p>This view compares average crimes per day on event days against normal days to identify stop areas that become more exposed during special events.</p>
+            <ul>
+              <li>Average event-day crime versus normal-day crime</li>
+              <li>Delta-based comparison by stop</li>
+              <li>Event-driven spatial pattern review</li>
+            </ul>
+          </div>
+          <figure class="showcase-shot">
+            <img src="assets/dashboard-event-vs-normal.png" alt="Event versus normal dashboard screenshot" />
+          </figure>
+        </article>
+      </section>
+
+      <section class="closing-strip">
+        <div>
+          <p class="eyebrow">Project Value</p>
+          <h3>This website now presents the project as a concrete TPS solution, not just a dashboard gallery.</h3>
+        </div>
+        <p>
+          It explains the problem, the data, the analytical method, and the operating model in one place. That makes it usable as
+          a presentation companion, a portfolio artifact, or a lightweight proposal page for Toronto Police Service stakeholders.
+        </p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
